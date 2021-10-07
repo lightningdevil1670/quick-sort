@@ -1,0 +1,58 @@
+#include<iostream>
+#include<bits/stdc++.h>
+using namespace std;
+
+sorting(int a[],int lb,int ub)
+{
+	int p; // p will be the variable to store the pivot element, which we will use to compare elements at other positions.
+	int i,j; // j will start from upper bound, and i will satrt from lower bound.
+	p=a[lb];
+	i=lb; // so this starts from the lowest point of the selected array
+	j=ub; // so its tarts with the highest point of thye selected array
+	while(i<j) // so to chech that the starting pointer is before the ending pointer
+	{
+		while(a[i]<=p) // it will keep incrementing itslef, till it finds an element which is higher then the pivot element
+		{
+			i++;
+		}
+		while(a[j]>p) // it will keep decreementing oitself till it finds a index with element smaller than the pivot element
+		{
+			j--;
+		}
+		if(i<j) // to make sure what ever element u are swapping is not already in correct order, because at one point i will cross j pointer
+		{
+			swap(a[i],a[j]);
+		}	
+	}
+	swap(a[lb],a[j]); // so to change the pivot because all the smaller and equal element to the previous pivot is already o its left, and higher element are on its right, so we need a diff pivot for the sorting of the left sub array and right sub array one at ta time
+	return j; // we return j so we know what wilol be the upperbound in the next sorting of the feft array, and to know the lower bound of the right subarray, and this value will be stored in loc variable in mergesort function
+}
+void quicksort(int a[],int lb, int ub)
+{
+	if(lb<ub)
+	{
+		int loc= sorting(a,lb,ub);
+		quicksort(a,lb,loc-1);
+		quicksort(a,loc+1,ub);
+	}
+}
+printarray(int a[], int n)
+{
+	cout<<"Sorted array is :"<<endl;
+	for(int i=0; i<n;i++)
+	{
+		cout<<a[i]<<" ";
+	}
+}
+int main()
+{
+	int a[1000],n,x;
+	cin>>n;
+	for(x=0; x<n;x++)
+	{
+		cin>>a[x];
+	}
+	quicksort(a,0,n-1);
+	printarray(a,n);
+	return 0;
+}
